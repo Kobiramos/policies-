@@ -1,0 +1,74 @@
+[
+    {
+        "date": "April 15, 2026",
+        "time": "09:14 AM",
+        "employee_number": "1",
+        "employee_name": "Kobe"
+    },
+    {
+        "date": "April 15, 2026",
+        "time": "09:29 AM",
+        "employee_number": "2",
+        "employee_name": "Kobs"
+    },
+    {
+        "date": "April 15, 2026",
+        "time": "09:29 AM",
+        "employee_number": "2",
+        "employee_name": "Kobe"
+    },
+    {
+        "date": "April 15, 2026",
+        "time": "09:58 AM",
+        "employee_number": "2",
+        "employee_name": "Kobe"
+    },
+    {
+        "date": "April 15, 2026",
+        "time": "10:12 AM",
+        "employee_number": "3",
+        "employee_name": "Kobs"
+    },
+    {
+        "date": "April 15, 2026",
+        "time": "02:03 PM",
+        "employee_number": "1001",
+        "employee_name": "Eduardo"
+    },
+    {
+        "date": "April 15, 2026",
+        "time": "02:07 PM",
+        "employee_number": "1002",
+        "employee_name": "Ed"
+    },
+    {
+        "date": "April 16, 2026",
+        "time": "02:39 PM",
+        "employee_number": "EMP-157",
+        "employee_name": "Eduardo Norberte Jr"
+    },
+    {
+        "date": "April 16, 2026",
+        "time": "02:42 PM",
+        "employee_number": "EMP-122",
+        "employee_name": "Irene Montes"
+    },
+    {
+        "date": "April 16, 2026",
+        "time": "02:50 PM",
+        "employee_number": "EMP-000",
+        "employee_name": "Nicholai Catral"
+    },
+    {
+        "date": "April 16, 2026",
+        "time": "02:52 PM",
+        "employee_number": "EMP-003",
+        "employee_name": "Aisel Encinares"
+    },
+    {
+        "date": "April 16, 2026",
+        "time": "02:57 PM",
+        "employee_number": "EMP-014",
+        "employee_name": "Alan Pamada"
+    }
+]

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Policy Acknowledgment - Brand Soluxions Inc.</title>
+    <link rel="icon" type="image/png" href="assets/images/Logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="assets/images/Logo.png" alt="Brand Soluxions Inc.">
+            </div>
+
+            <div class="login-title">
+                <h1>Employee Policy Acknowledgment</h1>
+                <p>Please enter your employee number to view company policies</p>
+            </div>
+
+            <div id="alertBox"></div>
+
+            <form id="loginForm" novalidate>
+                <div class="form-group">
+                    <label for="employee_number"><i class="fas fa-id-badge"></i> Employee Number</label>
+                    <input type="text" id="employee_number" name="employee_number" placeholder="Enter your employee number (e.g. 157 or EMP-157)" required autocomplete="off">
+                    <div class="error-message" id="empNumError">Please enter a valid employee number</div>
+                </div>
+
+                <div class="employee-preview" id="employeePreview">
+                    <div class="employee-preview-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="employee-preview-info">
+                        <strong id="previewName"></strong>
+                        <span id="previewDept"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+                    <span id="btnText">PROCEED TO POLICIES</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // If already logged in, redirect to policies
+        if (sessionStorage.getItem('employee_name') && sessionStorage.getItem('employee_number')) {
+            window.location.href = 'policies.html';
+            return;
+        }
+
+        var form = document.getElementById('loginForm');
+        var empNum = document.getElementById('employee_number');
+        var empNumError = document.getElementById('empNumError');
+        var submitBtn = document.getElementById('submitBtn');
+        var btnText = document.getElementById('btnText');
+        var alertBox = document.getElementById('alertBox');
+        var preview = document.getElementById('employeePreview');
+        var previewName = document.getElementById('previewName');
+        var previewDept = document.getElementById('previewDept');
+
+        var validatedEmployee = null;
+        var lookupTimer = null;
+        var employees = null;
+
+        // Load employees.json once
+        fetch('data/employees.json')
+            .then(function(res) { return res.json(); })
+            .then(function(data) { employees = data; })
+            .catch(function() {
+                alertBox.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> Could not load employee database. Please refresh.</div>';
+            });
+
+        function formatId(value) {
+            var upper = value.trim().toUpperCase();
+            if (upper.indexOf('EMP-') === 0) return upper;
+            var num = upper.replace(/\D/g, '');
+            if (!num) return upper;
+            return 'EMP-' + num.padStart(3, '0');
+        }
+
+        function showError(msg) {
+            empNumError.textContent = msg;
+            empNum.classList.add('error');
+            empNumError.classList.add('show');
+        }
+
+        function clearError() {
+            empNum.classList.remove('error');
+            empNumError.classList.remove('show');
+        }
+
+        function showPreview(data) {
+            previewName.textContent = data.name;
+            previewDept.textContent = data.department + ' — ' + data.position;
+            preview.classList.add('show');
+        }
+
+        function hidePreview() {
+            preview.classList.remove('show');
+        }
+
+        function lookupEmployee(value) {
+            if (!value) {
+                hidePreview();
+                submitBtn.disabled = true;
+                validatedEmployee = null;
+                clearError();
+                return;
+            }
+
+            if (!employees) {
+                hidePreview();
+                submitBtn.disabled = true;
+                return;
+            }
+
+            var formatted = formatId(value);
+            var emp = employees[formatted];
+
+            if (emp) {
+                clearError();
+                var authorizedPositions = ['Chief Executive Officer', 'IT Supervisor', 'IT Staff'];
+                validatedEmployee = {
+                    employee_id: formatted,
+                    name: emp.name,
+                    department: emp.department,
+                    position: emp.position,
+                    can_download: authorizedPositions.indexOf(emp.position) !== -1
+                };
+                showPreview(validatedEmployee);
+                submitBtn.disabled = false;
+            } else {
+                hidePreview();
+                submitBtn.disabled = true;
+                validatedEmployee = null;
+                if (value.length >= 1) {
+                    showError('Employee number not found');
+                }
+            }
+        }
+
+        empNum.addEventListener('input', function() {
+            var val = empNum.value.trim();
+            clearTimeout(lookupTimer);
+
+            if (!val) {
+                hidePreview();
+                submitBtn.disabled = true;
+                validatedEmployee = null;
+                clearError();
+                return;
+            }
+
+            lookupTimer = setTimeout(function() {
+                lookupEmployee(val);
+            }, 400);
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!validatedEmployee) {
+                showError('Please enter a valid employee number');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            btnText.innerHTML = '<span class="spinner"></span> PROCESSING...';
+
+            // Save to sessionStorage (replaces PHP session)
+            sessionStorage.setItem('employee_name', validatedEmployee.name);
+            sessionStorage.setItem('employee_number', validatedEmployee.employee_id);
+            sessionStorage.setItem('employee_department', validatedEmployee.department);
+            sessionStorage.setItem('employee_position', validatedEmployee.position);
+            sessionStorage.setItem('can_download', validatedEmployee.can_download ? '1' : '0');
+
+            window.location.href = 'policies.html';
+        });
+    });
+    </script>
+</body>
+</html>
