@@ -259,7 +259,7 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
                     <!-- Penalty Schedule Carousel -->
                     <div class="penalty-schedule">
                         <h3><i class="fas fa-list-ol"></i> Schedule of Penalties</h3>
-                        <p class="penalty-desc">Offenses that incur disciplinary action are classified under five (5) types:</p>
+                        <p class="penalty-desc">Offenses that incur disciplinary action are classified under five (5) types: <span style="font-size:12px; color:#888;">(tap a card to view details)</span></p>
                         <div class="penalty-carousel" id="penaltyCarousel">
                             <div class="penalty-track" id="penaltyTrack">
                                 <?php
@@ -270,10 +270,9 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
                                     ['type' => 'd', 'badge' => 'D', 'title' => 'Type D', 'items' => ['1st: 16-30 days suspension with warning','2nd: Dismissal'], 'footer' => 'Condoned after 4 years'],
                                     ['type' => 'e', 'badge' => 'E', 'title' => 'Type E', 'items' => ['1st Offense: <strong>Dismissal</strong>'], 'footer' => 'Condoned after 5 years (if commuted by CEO)'],
                                 ];
-                                // Render cards twice for seamless infinite loop
                                 for ($loop = 0; $loop < 2; $loop++):
                                     foreach ($penaltyCards as $card): ?>
-                                <div class="penalty-slide type-<?php echo $card['type']; ?>">
+                                <div class="penalty-slide type-<?php echo $card['type']; ?>" onclick="openPenaltyModal('<?php echo $card['type']; ?>')" style="cursor:pointer;">
                                     <div class="penalty-slide-badge"><?php echo $card['badge']; ?></div>
                                     <strong><?php echo $card['title']; ?></strong>
                                     <ul>
@@ -286,6 +285,14 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
                                 <?php endforeach;
                                 endfor; ?>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Penalty Detail Modals -->
+                    <div class="pin-modal-overlay" id="penaltyModalOverlay">
+                        <div class="pin-modal" style="max-width: 520px; text-align: left;">
+                            <div id="penaltyModalContent"></div>
+                            <button class="btn btn-primary" id="penaltyModalClose" style="width: 100%; margin-top: 20px;">Close</button>
                         </div>
                     </div>
 
@@ -778,6 +785,7 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
         var autoScrollSpeed = 0.8;
         var isAutoScrolling = true;
         var hasDragged = false;
+        window._carouselDragged = false;
 
         function getTrackWidth() {
             return track.scrollWidth / 2;
@@ -800,6 +808,7 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
         carousel.addEventListener('mousedown', function(e) {
             isDown = true;
             hasDragged = false;
+            window._carouselDragged = false;
             isAutoScrolling = false;
             startX = e.pageX - carousel.offsetLeft;
             scrollLeftPos = currentTranslate;
@@ -819,6 +828,7 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
             if (!isDown) return;
             e.preventDefault();
             hasDragged = true;
+            window._carouselDragged = true;
             var x = e.pageX - carousel.offsetLeft;
             var walk = (x - startX) * 2;
             currentTranslate = scrollLeftPos + walk;
@@ -832,6 +842,7 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
         carousel.addEventListener('touchstart', function(e) {
             isDown = true;
             hasDragged = false;
+            window._carouselDragged = false;
             isAutoScrolling = false;
             startX = e.touches[0].pageX - carousel.offsetLeft;
             scrollLeftPos = currentTranslate;
@@ -845,6 +856,7 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
         carousel.addEventListener('touchmove', function(e) {
             if (!isDown) return;
             hasDragged = true;
+            window._carouselDragged = true;
             var x = e.touches[0].pageX - carousel.offsetLeft;
             var walk = (x - startX) * 2;
             currentTranslate = scrollLeftPos + walk;
@@ -861,6 +873,114 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
         const icon = header.querySelector('.toggle-icon');
         body.classList.toggle('open');
         icon.classList.toggle('rotated');
+    }
+
+    // --- Penalty Detail Modals ---
+    var penaltyData = {
+        a: {
+            color: '#28a745',
+            title: 'Type A',
+            subtitle: 'Condoned after 1 year',
+            offenses: [
+                { nth: '1st Offense', action: 'Verbal Warning' },
+                { nth: '2nd Offense', action: 'Written Reprimand' },
+                { nth: '3rd Offense', action: '3-6 days suspension' },
+                { nth: '4th Offense', action: '7-15 days suspension' },
+                { nth: '5th Offense', action: '16-30 days suspension with warning of dismissal' },
+                { nth: '6th Offense', action: 'Dismissal' }
+            ]
+        },
+        b: {
+            color: '#ffc107',
+            title: 'Type B',
+            subtitle: 'Condoned after 2 years',
+            offenses: [
+                { nth: '1st Offense', action: 'Written Reprimand' },
+                { nth: '2nd Offense', action: '3-6 days suspension' },
+                { nth: '3rd Offense', action: '7-15 days suspension' },
+                { nth: '4th Offense', action: '16-30 days suspension with warning of dismissal' },
+                { nth: '5th Offense', action: 'Dismissal' }
+            ]
+        },
+        c: {
+            color: '#fd7e14',
+            title: 'Type C',
+            subtitle: 'Condoned after 3 years',
+            offenses: [
+                { nth: '1st Offense', action: '7-15 days suspension' },
+                { nth: '2nd Offense', action: '16-30 days suspension with warning of dismissal' },
+                { nth: '3rd Offense', action: 'Dismissal' }
+            ]
+        },
+        d: {
+            color: '#dc3545',
+            title: 'Type D',
+            subtitle: 'Condoned after 4 years',
+            offenses: [
+                { nth: '1st Offense', action: '16-30 days suspension with warning of dismissal' },
+                { nth: '2nd Offense', action: 'Dismissal' }
+            ]
+        },
+        e: {
+            color: '#6c757d',
+            title: 'Type E',
+            subtitle: 'Condoned after 5 years (if commuted by CEO)',
+            offenses: [
+                { nth: '1st Offense', action: 'Dismissal' }
+            ]
+        }
+    };
+
+    var penaltyOverlay = document.getElementById('penaltyModalOverlay');
+    var penaltyContent = document.getElementById('penaltyModalContent');
+
+    document.getElementById('penaltyModalClose').addEventListener('click', function() {
+        penaltyOverlay.classList.remove('show');
+        document.body.style.overflow = '';
+    });
+    penaltyOverlay.addEventListener('click', function(e) {
+        if (e.target === penaltyOverlay) {
+            penaltyOverlay.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+    });
+
+    function openPenaltyModal(type) {
+        if (window._carouselDragged) return;
+        var d = penaltyData[type];
+        if (!d) return;
+
+        var html = '<div style="text-align:center; margin-bottom: 20px;">';
+        html += '<div style="width:56px;height:56px;border-radius:50%;background:' + d.color + ';display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px;">';
+        html += '<span style="color:#fff;font-weight:700;font-size:22px;">' + type.toUpperCase() + '</span></div>';
+        html += '<h3 style="font-size:20px;font-weight:600;color:#1a1a2e;margin:0 0 4px;">' + d.title + '</h3>';
+        html += '<p style="font-size:13px;color:#888;margin:0;"><i class="fas fa-clock" style="margin-right:4px;"></i>' + d.subtitle + '</p>';
+        html += '</div>';
+
+        html += '<table style="width:100%;border-collapse:collapse;">';
+        html += '<thead><tr>';
+        html += '<th style="text-align:left;padding:10px 12px;font-size:13px;font-weight:600;color:#fff;background:' + d.color + ';border-radius:8px 0 0 0;">Offense</th>';
+        html += '<th style="text-align:left;padding:10px 12px;font-size:13px;font-weight:600;color:#fff;background:' + d.color + ';border-radius:0 8px 0 0;">Penalty</th>';
+        html += '</tr></thead><tbody>';
+
+        d.offenses.forEach(function(o, i) {
+            var bg = (i % 2 === 0) ? '#f9fafb' : '#fff';
+            var isLast = (i === d.offenses.length - 1);
+            var bleft = isLast ? 'border-radius:0 0 0 8px;' : '';
+            var bright = isLast ? 'border-radius:0 0 8px 0;' : '';
+            var isDismissal = o.action === 'Dismissal';
+            var actionHtml = isDismissal ? '<strong style="color:#dc3545;">' + o.action + '</strong>' : o.action;
+            html += '<tr style="background:' + bg + ';">';
+            html += '<td style="padding:11px 12px;font-size:13px;color:#333;border-bottom:1px solid #eee;' + bleft + '">' + o.nth + '</td>';
+            html += '<td style="padding:11px 12px;font-size:13px;color:#555;border-bottom:1px solid #eee;' + bright + '">' + actionHtml + '</td>';
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+
+        penaltyContent.innerHTML = html;
+        penaltyOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
     }
 
     function downloadExcel() {
