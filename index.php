@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['employee_name']) && isset($_SESSION['employee_number'])) {
-    require 'policies.php';
+    header('Location: policies.php');
     exit;
 }
 ?>
@@ -214,7 +214,7 @@ if (isset($_SESSION['employee_name']) && isset($_SESSION['employee_number'])) {
             .then(function(res) { return res.json(); })
             .then(function(data) {
                 if (data.success) {
-                    window.location.href = './';
+                    window.location.href = 'policies.php';
                 } else if (data.pin_error) {
                     showPinError(data.message || 'Incorrect PIN');
                     pinInput.focus();

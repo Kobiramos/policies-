@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['employee_name']) || !isset($_SESSION['employee_number'])) {
-    header('Location: ./');
+    header('Location: index.php');
     exit;
 }
 
@@ -73,7 +73,7 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
             <button class="side-panel-link" id="settingsBtn">
                 <i class="fas fa-gear"></i> Settings
             </button>
-            <a href="logout" class="side-panel-link side-panel-link-danger">
+            <a href="logout.php" class="side-panel-link side-panel-link-danger">
                 <i class="fas fa-right-from-bracket"></i> Logout
             </a>
         </nav>
