@@ -589,15 +589,30 @@
             nav.insertBefore(dlBtn, logoutBtn);
         }
 
-        // Show change-PIN modal if using default PIN
-        if (sessionStorage.getItem('is_default_pin') === '1') {
-            var pinModal = document.getElementById('pinModalOverlay');
-            pinModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-            document.getElementById('pinModalDismiss').addEventListener('click', function() {
+        // Change-PIN modal dismiss handler (always attach)
+        var pinModal = document.getElementById('pinModalOverlay');
+        var pinDismissBtn = document.getElementById('pinModalDismiss');
+        if (pinDismissBtn) {
+            pinDismissBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 pinModal.classList.remove('show');
                 document.body.style.overflow = '';
             });
+        }
+        if (pinModal) {
+            pinModal.addEventListener('click', function(e) {
+                if (e.target === pinModal) {
+                    pinModal.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        // Show change-PIN modal if using default PIN
+        if (sessionStorage.getItem('is_default_pin') === '1') {
+            pinModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
 
         // Logout clears session
