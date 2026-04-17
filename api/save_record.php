@@ -68,7 +68,9 @@ $record = [
     'date' => date('F d, Y'),
     'time' => date('h:i A'),
     'employee_number' => $formatted,
-    'employee_name' => $employee_name
+    'employee_name' => $employee_name,
+    'department' => $emp['department'],
+    'position' => $emp['position']
 ];
 
 $records[] = $record;

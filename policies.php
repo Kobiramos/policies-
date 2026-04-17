@@ -869,48 +869,12 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner"></span> Generating...';
 
-        fetch('api/get_records.php')
-            .then(function(res) {
-                if (res.status === 403) {
-                    throw new Error('Access denied. You are not authorized to download records.');
-                }
-                return res.json();
-            })
-            .then(function(records) {
-                if (!records || records.length === 0) {
-                    alert('No records found to download.');
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-file-excel"></i> Download Records';
-                    return;
-                }
+        window.location.href = 'api/download_records.php';
 
-                var data = [['Date', 'Time', 'Employee Number', 'Employee Name']];
-                records.forEach(function(r) {
-                    data.push([r.date, r.time, r.employee_number, r.employee_name]);
-                });
-
-                var ws = XLSX.utils.aoa_to_sheet(data);
-
-                ws['!cols'] = [
-                    { wch: 22 },
-                    { wch: 12 },
-                    { wch: 20 },
-                    { wch: 30 }
-                ];
-
-                var wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, 'Policy Records');
-
-                XLSX.writeFile(wb, 'Policy_Records.xlsx');
-
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-file-excel"></i> Download Records';
-            })
-            .catch(function(err) {
-                alert(err.message || 'Error downloading records. Please try again.');
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-file-excel"></i> Download Records';
-            });
+        setTimeout(function() {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-file-excel"></i> Download Records';
+        }, 2000);
     }
 
     // --- Default PIN Warning Modal ---

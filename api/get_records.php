@@ -23,4 +23,30 @@ if (!is_array($records)) {
     exit;
 }
 
+$employeesFile = __DIR__ . '/../data/employees.json';
+$employees = [];
+if (file_exists($employeesFile)) {
+    $employees = json_decode(file_get_contents($employeesFile), true) ?: [];
+}
+
+foreach ($records as &$r) {
+    if (empty($r['department']) || empty($r['position'])) {
+        $empId = isset($r['employee_number']) ? strtoupper($r['employee_number']) : '';
+        if (strpos($empId, 'EMP-') !== 0 && is_numeric($empId)) {
+            $empId = 'EMP-' . str_pad($empId, 3, '0', STR_PAD_LEFT);
+        }
+        if (isset($employees[$empId])) {
+            $r['department'] = $employees[$empId]['department'];
+            $r['position'] = $employees[$empId]['position'];
+            if (empty($r['employee_name']) || $r['employee_name'] === '') {
+                $r['employee_name'] = $employees[$empId]['name'];
+            }
+        } else {
+            $r['department'] = '';
+            $r['position'] = '';
+        }
+    }
+}
+unset($r);
+
 echo json_encode($records);
