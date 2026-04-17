@@ -579,8 +579,8 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
             </div>
             <h3>Change Your Default PIN</h3>
             <p>You are currently using the default PIN <strong>(1234)</strong>. For your security, please change it as soon as possible.</p>
-            <p style="font-size: 13px; color: #666; margin-top: 8px;">You can change your PIN anytime via the <strong>Settings</strong> button in the menu.</p>
-            <button class="btn btn-primary" id="defaultPinDismiss" style="margin-top: 20px;">Got it, I'll change my PIN</button>
+            <button class="btn btn-primary" id="defaultPinDismiss" style="margin-top: 20px;">Change My PIN Now</button>
+            <button class="pin-modal-cancel" id="defaultPinSkip">I'll do it later</button>
         </div>
     </div>
     <?php endif; ?>
@@ -919,12 +919,22 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
         if (defaultModal) {
             defaultModal.classList.add('show');
             document.body.style.overflow = 'hidden';
-            var dismissBtn = document.getElementById('defaultPinDismiss');
-            dismissBtn.addEventListener('click', function(e) {
+
+            var changeNowBtn = document.getElementById('defaultPinDismiss');
+            changeNowBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                defaultModal.classList.remove('show');
+                document.body.style.overflow = '';
+                document.getElementById('settingsBtn').click();
+            });
+
+            var skipBtn = document.getElementById('defaultPinSkip');
+            skipBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 defaultModal.classList.remove('show');
                 document.body.style.overflow = '';
             });
+
             defaultModal.addEventListener('click', function(e) {
                 if (e.target === defaultModal) {
                     defaultModal.classList.remove('show');
