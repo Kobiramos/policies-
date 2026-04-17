@@ -290,7 +290,7 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
 
                     <!-- Penalty Detail Modals -->
                     <div class="pin-modal-overlay" id="penaltyModalOverlay">
-                        <div class="pin-modal" style="max-width: 520px; text-align: left;">
+                        <div class="pin-modal penalty-detail-modal">
                             <div id="penaltyModalContent"></div>
                             <button class="btn btn-primary" id="penaltyModalClose" style="width: 100%; margin-top: 20px;">Close</button>
                         </div>
@@ -699,9 +699,31 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
     }
     .pin-alert-error { background: #ffe0e0; color: #c0392b; }
     .pin-alert-success { background: #d4edda; color: #155724; }
+    .penalty-detail-modal { max-width: 520px; text-align: left; }
+    .penalty-detail-modal table { font-size: 13px; }
+    @media (max-width: 768px) {
+        .penalty-detail-modal { max-width: 95vw; }
+    }
     @media (max-width: 480px) {
-        .pin-modal { padding: 28px 20px; }
+        .penalty-detail-modal { max-width: 100vw; }
+        .penalty-detail-modal table { font-size: 12px; }
+        .penalty-detail-modal table td,
+        .penalty-detail-modal table th { padding: 9px 8px !important; }
+    }
+    @media (max-width: 768px) {
+        .pin-modal-overlay { padding: 12px; }
+        .pin-modal { padding: 28px 20px; max-width: 95vw; }
         .pin-modal h3 { font-size: 17px; }
+    }
+    @media (max-width: 480px) {
+        .pin-modal-overlay { padding: 8px; }
+        .pin-modal { padding: 24px 16px; max-width: 100vw; border-radius: 16px; }
+        .pin-modal h3 { font-size: 16px; }
+        .pin-modal p { font-size: 13px; }
+        .pin-modal-icon { width: 52px; height: 52px; margin-bottom: 14px; }
+        .pin-modal-icon i { font-size: 22px; }
+        .pin-form-group input { padding: 10px 12px; font-size: 14px; }
+        .pin-form-group label { font-size: 12px; }
     }
     </style>
 
@@ -1113,6 +1135,8 @@ $isDefaultPin = isset($_SESSION['is_default_pin']) ? $_SESSION['is_default_pin']
                 if (data.success) {
                     alertDiv.innerHTML = '<div class="pin-alert pin-alert-success"><i class="fas fa-check-circle"></i> ' + data.message + '</div>';
                     changePinForm.reset();
+                    var defModal = document.getElementById('defaultPinModal');
+                    if (defModal) defModal.remove();
                     setTimeout(function() { closeChangePinModal(); }, 2000);
                 } else {
                     alertDiv.innerHTML = '<div class="pin-alert pin-alert-error"><i class="fas fa-exclamation-circle"></i> ' + data.message + '</div>';
