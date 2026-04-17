@@ -40,6 +40,12 @@
                     </div>
                 </div>
 
+                <div class="form-group" id="pinGroup" style="display:none;">
+                    <label for="pin_input"><i class="fas fa-lock"></i> PIN</label>
+                    <input type="password" id="pin_input" name="pin_input" placeholder="Enter your PIN" autocomplete="off">
+                    <div class="error-message" id="pinError">Incorrect PIN</div>
+                </div>
+
                 <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
                     <span id="btnText">PROCEED TO POLICIES</span>
                 </button>
@@ -48,8 +54,11 @@
     </div>
 
     <script>
+var employees = {"EMP-000":{"name":"Nicholai Catral","first_name":"Nicholai","last_name":"Catral","middle_name":"Guiang","department":"CEO","position":"Chief Executive Officer","pin":"1234"},"EMP-001":{"name":"Dennis Admana","first_name":"Dennis","last_name":"Admana","middle_name":"Vidal","department":"Production","position":"Production Operation - Support Officer","pin":"1234"},"EMP-002":{"name":"Randy Paligar","first_name":"Randy","last_name":"Paligar","middle_name":"Capua","department":"Warehouse & Logistics","position":"Warehouse & Logistics Supervisor","pin":"1234"},"EMP-003":{"name":"Aisel Encinares","first_name":"Aisel","last_name":"Encinares","middle_name":"Gutierrez","department":"Support Services","position":"Senior Support Services Manager","pin":"1234"},"EMP-004":{"name":"Angeli Mari San Luis","first_name":"Angeli Mari","last_name":"San Luis","middle_name":"Datu","department":"Admin","position":"Admin Manager","pin":"1234"},"EMP-005":{"name":"Lorna Buama","first_name":"Lorna","last_name":"Buama","middle_name":"Ravago","department":"Production","position":"Planning & Admin Supervisor","pin":"1234"},"EMP-006":{"name":"Mark Lester Miedes","first_name":"Mark Lester","last_name":"Miedes","middle_name":"Fernandez","department":"Quality Control & Assurance","position":"QC Line Inspector","pin":"1234"},"EMP-007":{"name":"Michelle San Jose","first_name":"Michelle","last_name":"San Jose","middle_name":"Lustado","department":"Warehouse & Logistics","position":"Senior Warehouse & Logistics Supervisor","pin":"1234"},"EMP-008":{"name":"Julie Ann Awit","first_name":"Julie Ann","last_name":"Awit","middle_name":"Dela Cruz","department":"Purchasing","position":"Purchasing Supervisor","pin":"1234"},"EMP-009":{"name":"Jonieva Nicoleth Botin","first_name":"Jonieva Nicoleth","last_name":"Botin","middle_name":"Padilla","department":"Quality Control & Assurance","position":"QC Line Inspector","pin":"1234"},"EMP-010":{"name":"Jhon Dela Cruz","first_name":"Jhon","last_name":"Dela Cruz","middle_name":"David","department":"Warehouse & Logistics","position":"Warehouse Specialist","pin":"1234"},"EMP-011":{"name":"Lyka Salimbot","first_name":"Lyka","last_name":"Salimbot","middle_name":"Opanda","department":"Quality Control & Assurance","position":"QC Line Inspector","pin":"1234"},"EMP-012":{"name":"Maybelle Degala","first_name":"Maybelle","last_name":"Degala","middle_name":"Roxas","department":"Production","position":"TL Pillow Pack - Area 2","pin":"1234"},"EMP-014":{"name":"Alan Pamada","first_name":"Alan","last_name":"Pamada","middle_name":"Cam","department":"Warehouse & Logistics","position":"Dispensing Staff - Area 1","pin":"1234"},"EMP-015":{"name":"Reinier John Maniago","first_name":"Reinier John","last_name":"Maniago","middle_name":"Panaligan","department":"Quality Control & Assurance","position":"QC Analyst - Soap","pin":"1234"},"EMP-016":{"name":"Amiel Gutierrez","first_name":"Amiel","last_name":"Gutierrez","middle_name":"San Juan","department":"Warehouse & Logistics","position":"Forklift Operator & Delivery Helper/Stockman","pin":"1234"},"EMP-017":{"name":"John Kenneth Balmeo","first_name":"John Kenneth","last_name":"Balmeo","middle_name":"Francisco","department":"Production","position":"Production Preparation- Compounding","pin":"1234"},"EMP-018":{"name":"Paula Jean San Juan","first_name":"Paula Jean","last_name":"San Juan","middle_name":"Campo","department":"Quality Control & Assurance","position":"QC Line Inspector","pin":"1234"},"EMP-019":{"name":"Charyleen Lou Meraña","first_name":"Charyleen Lou","last_name":"Meraña","middle_name":"Natividad","department":"Warehouse & Logistics","position":"Inventory Controller Specialist","pin":"1234"},"EMP-020":{"name":"Michael Francisco","first_name":"Michael","last_name":"Francisco","middle_name":"Villaflores","department":"Warehouse & Logistics","position":"TL Dispensing - Area 1","pin":"1234"},"EMP-021":{"name":"Mark John Quirap","first_name":"Mark John","last_name":"Quirap","middle_name":"Bual","department":"Production","position":"TL Compounding - Area 1","pin":"1234"},"EMP-022":{"name":"Airon John Leysa","first_name":"Airon John","last_name":"Leysa","middle_name":"Talavera","department":"Production","position":"Production Staff","pin":"1234"},"EMP-023":{"name":"Joey Tayoto","first_name":"Joey","last_name":"Tayoto","middle_name":"Calibo","department":"Production","position":"Production Staff","pin":"1234"},"EMP-024":{"name":"Russel Bautista","first_name":"Russel","last_name":"Bautista","middle_name":"San Juan","department":"Production","position":"TL Compounding - Area 2","pin":"1234"},"EMP-025":{"name":"Earnest Joy Nolasco","first_name":"Earnest Joy","last_name":"Nolasco","middle_name":"Cerafica","department":"Research & Development","position":"Junior Formulator","pin":"1234"},"EMP-026":{"name":"Jianne Mae Santos","first_name":"Jianne Mae","last_name":"Santos","middle_name":"Dilidili","department":"Sales","position":"Sales Staff","pin":"1234"},"EMP-027":{"name":"Danica Castillo","first_name":"Danica","last_name":"Castillo","middle_name":"Gagula","department":"Production","position":"Compounding Production Supervisor","pin":"1234"},"EMP-029":{"name":"Erickson Roxas","first_name":"Erickson","last_name":"Roxas","middle_name":"San Juan","department":"Warehouse & Logistics","position":"Driver","pin":"1234"},"EMP-030":{"name":"Mikee Bauyon","first_name":"Mikee","last_name":"Bauyon","middle_name":"Peñada","department":"Human Resources","position":"Compensation & Benefits Supervisor","pin":"1234"},"EMP-031":{"name":"Rai Von Ree Fontanilla","first_name":"Rai Von Ree","last_name":"Fontanilla","middle_name":"Sacil","department":"Warehouse & Logistics","position":"TL - Material Premix Preparation","pin":"1234"},"EMP-032":{"name":"Rodolfo San Felipe","first_name":"Rodolfo","last_name":"San Felipe","middle_name":"Maybituin","department":"Warehouse & Logistics","position":"Dispensing Staff - Area 2","pin":"1234"},"EMP-033":{"name":"Maica Regidor","first_name":"Maica","last_name":"Regidor","middle_name":"Bernardo","department":"Production","position":"Data Encoder","pin":"1234"},"EMP-034":{"name":"Jeralyn Catarining","first_name":"Jeralyn","last_name":"Catarining","middle_name":"Makidato","department":"Production","position":"Production Staff","pin":"1234"},"EMP-035":{"name":"Ersan Solidor Jr.","first_name":"Ersan","last_name":"Solidor Jr.","middle_name":"Silayan","department":"Production","position":"Production Staff","pin":"1234"},"EMP-036":{"name":"Josephine Dela Rosa","first_name":"Josephine","last_name":"Dela Rosa","middle_name":"Villegas","department":"Production","position":"Production Staff","pin":"1234"},"EMP-037":{"name":"Nathaniel Perez","first_name":"Nathaniel","last_name":"Perez","middle_name":"Mendoza","department":"Production","position":"Production Staff","pin":"1234"},"EMP-038":{"name":"Ahlen Ken Batalon","first_name":"Ahlen Ken","last_name":"Batalon","middle_name":"Alasco","department":"Marketing & Creative","position":"Marketing & Creative Supervisor","pin":"1234"},"EMP-039":{"name":"Olivar Ocampo","first_name":"Olivar","last_name":"Ocampo","middle_name":"Castañeda","department":"Admin","position":"Utility Personnel","pin":"1234"},"EMP-040":{"name":"Rhodora Evangelista","first_name":"Rhodora","last_name":"Evangelista","middle_name":"Amaba","department":"Production","position":"Production Staff","pin":"1234"},"EMP-041":{"name":"Alizza Lustado","first_name":"Alizza","last_name":"Lustado","middle_name":"Santos","department":"Admin","position":"Facility & Supplies Supervisor","pin":"1234"},"EMP-042":{"name":"Vincent Harvey Mata","first_name":"Vincent Harvey","last_name":"Mata","middle_name":"Espiritu Santo","department":"Quality Control & Assurance","position":"QC Supervisor","pin":"1234"},"EMP-043":{"name":"Miradeth Aglibot","first_name":"Miradeth","last_name":"Aglibot","middle_name":"Ogdiman","department":"Production","position":"Production Staff","pin":"1234"},"EMP-044":{"name":"Leonardo Moya","first_name":"Leonardo","last_name":"Moya","middle_name":"Concha","department":"Executive","position":"Executive Driver","pin":"1234"},"EMP-045":{"name":"Robert Malate","first_name":"Robert","last_name":"Malate","middle_name":"De Guzman","department":"Warehouse & Logistics","position":"Inventory Clerk","pin":"1234"},"EMP-046":{"name":"Mark Ivan Detera","first_name":"Mark Ivan","last_name":"Detera","middle_name":"Hizarsa","department":"Production","position":"Production Staff","pin":"1234"},"EMP-047":{"name":"Mario De Pancho Jr.","first_name":"Mario","last_name":"De Pancho Jr.","middle_name":"Molina","department":"Production","position":"Production Staff","pin":"1234"},"EMP-048":{"name":"Maricel Lustado","first_name":"Maricel","last_name":"Lustado","middle_name":"San Jose","department":"Admin","position":"Utility Personnel","pin":"1234"},"EMP-049":{"name":"Jaybee Galliguez","first_name":"Jaybee","last_name":"Galliguez","middle_name":"Julian","department":"Plant Maintenance","position":"Facility Technician","pin":"1234"},"EMP-050":{"name":"Joan Javier","first_name":"Joan","last_name":"Javier","middle_name":"Nepomuceno","department":"Quality Control & Assurance","position":"QC Line Inspector","pin":"1234"},"EMP-051":{"name":"Christian Noel Clemente","first_name":"Christian Noel","last_name":"Clemente","middle_name":"Salmorin","department":"Production","position":"Production Staff","pin":"1234"},"EMP-052":{"name":"Jeffrey Santos","first_name":"Jeffrey","last_name":"Santos","middle_name":"Quiambao","department":"Warehouse & Logistics","position":"Warehouse Checker  - Angono","pin":"1234"},"EMP-053":{"name":"Joerghie Anne Moreno","first_name":"Joerghie Anne","last_name":"Moreno","middle_name":"Isidro","department":"Quality Control & Assurance","position":"QC Line Inspector","pin":"1234"},"EMP-054":{"name":"Garry Zaldy Javier","first_name":"Garry Zaldy","last_name":"Javier","middle_name":"Cuya","department":"Production","position":"Production Staff","pin":"1234"},"EMP-055":{"name":"Gibsean Jay Apines","first_name":"Gibsean Jay","last_name":"Apines","middle_name":"Arellano","department":"Production","position":"Production Staff","pin":"1234"},"EMP-056":{"name":"Erma Barreto","first_name":"Erma","last_name":"Barreto","middle_name":"Soliven","department":"Executive","position":"Chief Commercial Officer","pin":"1234"},"EMP-061":{"name":"Serlouis Fontanilla","first_name":"Serlouis","last_name":"Fontanilla","middle_name":"Tabios","department":"Production","position":"TL Cutting - Area 1","pin":"1234"},"EMP-067":{"name":"Ayan Capellan","first_name":"Ayan","last_name":"Capellan","middle_name":"Cesar","department":"Warehouse & Logistics","position":"TL Dispensing - Area 2","pin":"1234"},"EMP-068":{"name":"Jameslee Capistrano","first_name":"Jameslee","last_name":"Capistrano","middle_name":"Avillanida","department":"Warehouse & Logistics","position":"Dispensing Staff - Area 1","pin":"1234"},"EMP-069":{"name":"Ruzzel Jerzce Congollo","first_name":"Ruzzel Jerzce","last_name":"Congollo","middle_name":"Tandayu","department":"Warehouse & Logistics","position":"Delivery Helper / Stockman","pin":"1234"},"EMP-071":{"name":"Al Jason Haguimit","first_name":"Al Jason","last_name":"Haguimit","middle_name":"Sarco","department":"Production","position":"Production Staff","pin":"1234"},"EMP-073":{"name":"Kirk Mongote","first_name":"Kirk","last_name":"Mongote","middle_name":"Valencia","department":"Warehouse & Logistics","position":"Warehouse Checker  - Taytay","pin":"1234"},"EMP-077":{"name":"Kenneth John Villaraza","first_name":"Kenneth John","last_name":"Villaraza","middle_name":"Jintula","department":"Warehouse & Logistics","position":"Delivery Helper / Stockman","pin":"1234"},"EMP-082":{"name":"Rowell Malaguplo","first_name":"Rowell","last_name":"Malaguplo","middle_name":"Orteza","department":"Purchasing","position":"Technical Analyst","pin":"1234"},"EMP-083":{"name":"Cyrell Jade Navarro","first_name":"Cyrell Jade","last_name":"Navarro","middle_name":"Crisologo","department":"Production","position":"Data Encoder","pin":"1234"},"EMP-087":{"name":"Bernard Hermida","first_name":"Bernard","last_name":"Hermida","middle_name":"","department":"Warehouse & Logistics","position":"Dispensing Staff - Area 2","pin":"1234"},"EMP-088":{"name":"Kirstein Kyla De Leon","first_name":"Kirstein Kyla","last_name":"De Leon","middle_name":"Ramos","department":"Quality Control & Assurance","position":"Document Controller","pin":"1234"},"EMP-089":{"name":"Xandra Zuñiga","first_name":"Xandra","last_name":"Zuñiga","middle_name":"Morata","department":"Research & Development","position":"Research & Development Manager","pin":"1234"},"EMP-093":{"name":"Elleonor Lirio","first_name":"Elleonor","last_name":"Lirio","middle_name":"Nievera","department":"Human Resources","position":"Company Nurse","pin":"1234"},"EMP-094":{"name":"Reniel Gallar","first_name":"Reniel","last_name":"Gallar","middle_name":"Santos","department":"Marketing & Creative","position":"Multimedia Artist","pin":"1234"},"EMP-096":{"name":"Justine Garrovillas","first_name":"Justine","last_name":"Garrovillas","middle_name":"Fombuena","department":"Warehouse & Logistics","position":"Dispensing Staff - Area 2","pin":"1234"},"EMP-097":{"name":"Diane Vocal","first_name":"Diane","last_name":"Vocal","middle_name":"Celebre","department":"Human Resources","position":"Recruitment Staff","pin":"1234"},"EMP-108":{"name":"Norielle Marquez","first_name":"Norielle","last_name":"Marquez","middle_name":"Saldana","department":"Warehouse & Logistics","position":"Compounding Materials Preparation","pin":"1234"},"EMP-109":{"name":"Ryan Merioles","first_name":"Ryan","last_name":"Merioles","middle_name":"Pueblos","department":"Plant Maintenance Office","position":"Plant Maintenance Manager","pin":"1234"},"EMP-110":{"name":"Mikko Sumagui","first_name":"Mikko","last_name":"Sumagui","middle_name":"Astijada","department":"Warehouse & Logistics","position":"Compounding Materials Preparation","pin":"1234"},"EMP-122":{"name":"Irene Montes","first_name":"Irene","last_name":"Montes","middle_name":"Gonzalvo","department":"Finance & Accounting","position":"Finance & Accounting Manager","pin":"1234"},"EMP-125":{"name":"Albert Pelaez","first_name":"Albert","last_name":"Pelaez","middle_name":"Margate","department":"Admin","position":"Utility Personnel","pin":"1234"},"EMP-131":{"name":"Anri Francisco","first_name":"Anri","last_name":"Francisco","middle_name":"Reyes","department":"Quality Control & Assurance","position":"QC Analyst - Soap","pin":"1234"},"EMP-132":{"name":"Drake Aldrin Ignacio","first_name":"Drake Aldrin","last_name":"Ignacio","middle_name":"Aldrin","department":"Warehouse & Logistics","position":"Dispensing Staff - Area 1","pin":"1234"},"EMP-139":{"name":"Jan Krizyl Gozum","first_name":"Jan Krizyl","last_name":"Gozum","middle_name":"Ruedas","department":"Purchasing","position":"Purchasing Staff","pin":"1234"},"EMP-140":{"name":"Ronalyn Evasco","first_name":"Ronalyn","last_name":"Evasco","middle_name":"Porral","department":"Finance & Accounting","position":"General Accountant","pin":"1234"},"EMP-142":{"name":"Jason Giray","first_name":"Jason","last_name":"Giray","middle_name":"Plandiano","department":"Warehouse & Logistics","position":"Delivery Helper / Stockman","pin":"1234"},"EMP-143":{"name":"Angelica Banua","first_name":"Angelica","last_name":"Banua","middle_name":"Santos","department":"Finance & Accounting","position":"General Accountant","pin":"1234"},"EMP-144":{"name":"Kreshield Pabulayan","first_name":"Kreshield","last_name":"Pabulayan","middle_name":"Obaña","department":"Purchasing","position":"Purchasing Manager","pin":"1234"},"EMP-147":{"name":"Bon Jovi Tilbe","first_name":"Bon Jovi","last_name":"Tilbe","middle_name":"Zapanta","department":"Production","position":"Production Staff","pin":"1234"},"EMP-149":{"name":"Nicole Aliling","first_name":"Nicole","last_name":"Aliling","middle_name":"Eredera","department":"Admin","position":"Admin Staff","pin":"1234"},"EMP-150":{"name":"Francin Alysson Reyes","first_name":"Francin Alysson","last_name":"Reyes","middle_name":"Dela Rosa","department":"Human Resources","position":"HR Staff - Recruitment","pin":"1234"},"EMP-151":{"name":"Allyssa Joy Fermin","first_name":"Allyssa Joy","last_name":"Fermin","middle_name":"Celebre","department":"Human Resources","position":"HR Staff - Compensation & Benefits","pin":"1234"},"EMP-152":{"name":"Leandrea Valdez","first_name":"Leandrea","last_name":"Valdez","middle_name":"Drio","department":"Human Resources","position":"HR Staff - Employee Relations","pin":"1234"},"EMP-157":{"name":"Eduardo Norberte Jr","first_name":"Eduardo","last_name":"Norberte Jr","middle_name":"Santos","department":"Admin","position":"IT Supervisor","pin":"1234"},"EMP-162":{"name":"Enrico Dizon","first_name":"Enrico","last_name":"Dizon","middle_name":"Enrico","department":"Warehouse & Logistics","position":"Production Staff","pin":"1234"},"EMP-166":{"name":"Raycyril Mayang","first_name":"Raycyril","last_name":"Mayang","middle_name":"Garcia","department":"Production","position":"Production Staff","pin":"1234"},"EMP-167":{"name":"Alvin Pavia","first_name":"Alvin","last_name":"Pavia","middle_name":"Cruz","department":"Warehouse & Logistics","position":"Driver","pin":"1234"},"EMP-169":{"name":"Jhon Arvin Fermin","first_name":"Jhon Arvin","last_name":"Fermin","middle_name":"Celebre","department":"Production","position":"Production Staff","pin":"1234"},"EMP-181":{"name":"Sherlance Gondraneos","first_name":"Sherlance","last_name":"Gondraneos","middle_name":"Brazo","department":"Production","position":"Production Staff","pin":"1234"},"EMP-187":{"name":"Ma. Karen San Juan","first_name":"Ma. Karen","last_name":"San Juan","middle_name":"San Juan","department":"Production","position":"Delivery Helper / Stockman","pin":"1234"},"EMP-188":{"name":"Teody Teberio","first_name":"Teody","last_name":"Teberio","middle_name":"Asim","department":"Warehouse & Logistics","position":"Production Staff","pin":"1234"},"EMP-196":{"name":"Rodomer Jr. Naron","first_name":"Rodomer Jr.","last_name":"Naron","middle_name":"Ocon","department":"Warehouse & Logistics","position":"Production Staff","pin":"1234"},"EMP-202":{"name":"Jeffson Delos Santos","first_name":"Jeffson","last_name":"Delos Santos","middle_name":"Santiago","department":"Finance & Accounting","position":"Production Staff","pin":"1234"},"EMP-212":{"name":"Julenio Lising","first_name":"Julenio","last_name":"Lising","middle_name":"Sacramento","department":"Warehouse & Logistics","position":"Production Staff","pin":"1234"},"EMP-219":{"name":"Nelson Palomo","first_name":"Nelson","last_name":"Palomo","middle_name":"Bretania","department":"Operations","position":"Production Staff","pin":"1234"},"EMP-220":{"name":"Jasper Irvin Marilag","first_name":"Jasper Irvin","last_name":"Marilag","middle_name":"Saya-Ang","department":"Finance & Accounting","position":"Production Staff","pin":"1234"},"EMP-221":{"name":"Ronald Dabu","first_name":"Ronald","last_name":"Dabu","middle_name":"Morales","department":"Production","position":"Production Lead- Dismantling","pin":"1234"},"EMP-223":{"name":"Clark Rassel Alegre","first_name":"Clark Rassel","last_name":"Alegre","middle_name":"Vocal","department":"Warehouse & Logistics","position":"Stockman Staff","pin":"1234"},"EMP-224":{"name":"Ella Mae Tongcua","first_name":"Ella Mae","last_name":"Tongcua","middle_name":"Tabjan","department":"Quality Control & Assurance","position":"QC Line Inspector","pin":"1234"},"EMP-225":{"name":"Clare Antonette Lopez","first_name":"Clare Antonette","last_name":"Lopez","middle_name":"Oloroso","department":"Human Resources","position":"Human Resources Manager","pin":"1234"},"EMP-226":{"name":"Tristan Christoper Mataro","first_name":"Tristan Christoper","last_name":"Mataro","middle_name":"Nicolas","department":"Quality Control & Assurance","position":"QC Line Inspector","pin":"1234"},"EMP-227":{"name":"Kyla Ann Torion","first_name":"Kyla Ann","last_name":"Torion","middle_name":"Gerodeo","department":"Quality Control & Assurance","position":"QC Line Inspector","pin":"1234"},"EMP-230":{"name":"John Racel Abad","first_name":"John Racel","last_name":"Abad","middle_name":"Ametin","department":"Warehouse & Logistics","position":"Dispensing Staff","pin":"1234"},"EMP-231":{"name":"Marcelino Jr. San Juan","first_name":"Marcelino Jr.","last_name":"San Juan","middle_name":"Gamo","department":"Warehouse & Logistics","position":"Dispensing Staff","pin":"1234"},"EMP-232":{"name":"Ryan Bustamante","first_name":"Ryan","last_name":"Bustamante","middle_name":"Recomo","department":"Warehouse & Logistics","position":"Dispensing Staff","pin":"1234"},"EMP-233":{"name":"Ricky Fuentes","first_name":"Ricky","last_name":"Fuentes","middle_name":"Ronquillo","department":"Plant Maintenance","position":"Production Technician","pin":"1234"},"EMP-234":{"name":"Precious Kyle Kitma","first_name":"Precious Kyle","last_name":"Kitma","middle_name":"Bondame","department":"Quality Control & Assurance","position":"QC Supervisor","pin":"1234"},"EMP-235":{"name":"Chrisha May Vocal","first_name":"Chrisha May","last_name":"Vocal","middle_name":"Celebre","department":"Warehouse & Logistics","position":"Logistic Staff","pin":"1234"},"EMP-236":{"name":"Kim Candelaria","first_name":"Kim","last_name":"Candelaria","middle_name":"Dacoba","department":"Admin","position":"Utility Personnel","pin":"1234"},"EMP-237":{"name":"John Mico Bajaro","first_name":"John Mico","last_name":"Bajaro","middle_name":"Marin","department":"Warehouse & Logistics","position":"Dispensing Staff","pin":"1234"},"EMP-239":{"name":"Angelo Suson","first_name":"Angelo","last_name":"Suson","middle_name":"","department":"Production","position":"Production Emulsion Operator","pin":"1234"},"EMP-240":{"name":"Marie Jan Silubrico","first_name":"Marie Jan","last_name":"Silubrico","middle_name":"Claveria","department":"Research & Development","position":"Senior Research & Development Manager","pin":"1234"},"EMP-241":{"name":"Franchesca Louie Dionisio","first_name":"Franchesca Louie","last_name":"Dionisio","middle_name":"San Andres","department":"Quality Control & Assurance","position":"QC Line Inspector","pin":"1234"},"EMP-244":{"name":"John Ray Nava","first_name":"John Ray","last_name":"Nava","middle_name":"Jaime","department":"Quality Control & Assurance","position":"QC Analyst- Sunscreen","pin":"1234"},"EMP-245":{"name":"Florida Georgia Nido","first_name":"Florida Georgia","last_name":"Nido","middle_name":"Castillo","department":"Quality Control & Assurance","position":"Document Controller","pin":"1234"},"EMP-246":{"name":"Eigen James Retilba","first_name":"Eigen James","last_name":"Retilba","middle_name":"Del Rosario","department":"Admin","position":"IT Staff","pin":"1234"},"EMP-247":{"name":"Rosendo Jr. Diolata","first_name":"Rosendo Jr.","last_name":"Diolata","middle_name":"Bermas","department":"Warehouse & Logistics","position":"Driver","pin":"1234"},"EMP-248":{"name":"Joseph Sister","first_name":"Joseph","last_name":"Sister","middle_name":"Irinco","department":"Admin","position":"Utility Personnel","pin":"1234"},"EMP-250":{"name":"Deolanda Bautista","first_name":"Deolanda","last_name":"Bautista","middle_name":"Apresto","department":"Purchasing","position":"Purchasing Staff","pin":"1234"},"EMP-251":{"name":"Bengie Dioso","first_name":"Bengie","last_name":"Dioso","middle_name":"Montes","department":"Production","position":"Production Operator-Cutting","pin":"1234"},"EMP-252":{"name":"Rona Joy Reyes","first_name":"Rona Joy","last_name":"Reyes","middle_name":"Barreda","department":"Production","position":"Production Team Leader-Pillowpack","pin":"1234"},"EMP-253":{"name":"Michael Zeta","first_name":"Michael","last_name":"Zeta","middle_name":"Valdez","department":"Production","position":"Production Sorting-Cutting","pin":"1234"},"EMP-254":{"name":"Ma. Daisy Wenceslao","first_name":"Ma. Daisy","last_name":"Wenceslao","middle_name":"Gines","department":"Production","position":"Production Inspector-Cutting","pin":"1234"},"EMP-255":{"name":"April Anne Padallan","first_name":"April Anne","last_name":"Padallan","middle_name":"Bangot","department":"Production","position":"Production Inspector-Stamping","pin":"1234"},"EMP-256":{"name":"Karen Cabañero","first_name":"Karen","last_name":"Cabañero","middle_name":"Nabor","department":"Production","position":"Production Sorting-Stamping","pin":"1234"},"EMP-257":{"name":"Jhune Ihra Aparejado","first_name":"Jhune Ihra","last_name":"Aparejado","middle_name":"Hallig","department":"Production","position":"Production Inspector-Cutting","pin":"1234"},"EMP-258":{"name":"Lovi Agawa","first_name":"Lovi","last_name":"Agawa","middle_name":"Kien","department":"Production","position":"Production Sorting-Stamping","pin":"1234"},"EMP-259":{"name":"Janiel Lorente","first_name":"Janiel","last_name":"Lorente","middle_name":"Gutierrez","department":"Research & Development","position":"Junior Formulator","pin":"1234"},"EMP-242":{"name":"Dikembie Bernardo","first_name":"Dikembie","last_name":"Bernardo","middle_name":"San Juan","department":"Production","position":"Production Operator - Cutting (2nd Line)","pin":"1234"},"EMP-243":{"name":"Jaime Jr. Toledana","first_name":"Jaime Jr.","last_name":"Toledana","middle_name":"Aguilar","department":"Production","position":"Production Preparation- Compounding","pin":"1234"},"EMP-249":{"name":"Don Ivan Paras","first_name":"Don Ivan","last_name":"Paras","middle_name":"Pinote","department":"Production","position":"Production Operator- Compounding","pin":"1234"},"EMP-260":{"name":"Mark Anthony Tude","first_name":"Mark Anthony","last_name":"Tude","middle_name":"Suela","department":"Plant Maintenance","position":"Production Maintenance Technician","pin":"1234"},"EMP-261":{"name":"Missy Harilla","first_name":"Missy","last_name":"Harilla","middle_name":"Agawa","department":"Production","position":"Production Operator- Stamping (2nd Line)","pin":"1234"},"EMP-263":{"name":"Shela Mae Paler","first_name":"Shela Mae","last_name":"Paler","middle_name":"","department":"Production","position":"Production Operator- Crating","pin":"1234"},"EMP-264":{"name":"Judy Anne Ranes","first_name":"Judy Anne","last_name":"Ranes","middle_name":"De Jesus","department":"Production","position":"Production Sorting- Cutting (2nd Line)","pin":"1234"},"EMP-265":{"name":"Jan Paul Vilar","first_name":"Jan Paul","last_name":"Vilar","middle_name":"Verana","department":"Production","position":"Production Curing/Levelling- Compounding","pin":"1234"},"EMP-266":{"name":"Joan Barrogo","first_name":"Joan","last_name":"Barrogo","middle_name":"Bernulla","department":"Production","position":"Production Team Leader- Cutting (Both lines)","pin":"1234"},"EMP-267":{"name":"Michael Admiral Santiago","first_name":"Michael Admiral","last_name":"Santiago","middle_name":"Rosete","department":"Quality Control & Assurance","position":"QCAD Manager","pin":"1234"},"EMP-268":{"name":"Ramil Cunot","first_name":"Ramil","last_name":"Cunot","middle_name":"Arizobal","department":"Warehouse & Logistics","position":"Truck Driver","pin":"1234"},"EMP-270":{"name":"Moises Angelo Tabafunda","first_name":"Moises Angelo","last_name":"Tabafunda","middle_name":"Cabral","department":"Production","position":"Production Supervisor","pin":"1234"},"EMP-269":{"name":"Reynaldo Oraño","first_name":"Reynaldo","last_name":"Oraño","middle_name":"Arrogante","department":"Production","position":"Production Manager","pin":"1234"}};
+    </script>
+
+    <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // If already logged in, redirect to policies
         if (sessionStorage.getItem('employee_name') && sessionStorage.getItem('employee_number')) {
             window.location.href = 'policies.html';
             return;
@@ -58,6 +67,9 @@
         var form = document.getElementById('loginForm');
         var empNum = document.getElementById('employee_number');
         var empNumError = document.getElementById('empNumError');
+        var pinInput = document.getElementById('pin_input');
+        var pinError = document.getElementById('pinError');
+        var pinGroup = document.getElementById('pinGroup');
         var submitBtn = document.getElementById('submitBtn');
         var btnText = document.getElementById('btnText');
         var alertBox = document.getElementById('alertBox');
@@ -67,15 +79,6 @@
 
         var validatedEmployee = null;
         var lookupTimer = null;
-        var employees = null;
-
-        // Load employees.json once
-        fetch('data/employees.json')
-            .then(function(res) { return res.json(); })
-            .then(function(data) { employees = data; })
-            .catch(function() {
-                alertBox.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> Could not load employee database. Please refresh.</div>';
-            });
 
         function formatId(value) {
             var upper = value.trim().toUpperCase();
@@ -96,6 +99,17 @@
             empNumError.classList.remove('show');
         }
 
+        function showPinError(msg) {
+            pinError.textContent = msg;
+            pinInput.classList.add('error');
+            pinError.classList.add('show');
+        }
+
+        function clearPinError() {
+            pinInput.classList.remove('error');
+            pinError.classList.remove('show');
+        }
+
         function showPreview(data) {
             previewName.textContent = data.name;
             previewDept.textContent = data.department + ' — ' + data.position;
@@ -106,18 +120,28 @@
             preview.classList.remove('show');
         }
 
+        function showPinField() {
+            pinGroup.style.display = '';
+            pinInput.disabled = false;
+            pinInput.value = '';
+            clearPinError();
+            pinInput.focus();
+        }
+
+        function hidePinField() {
+            pinGroup.style.display = 'none';
+            pinInput.disabled = true;
+            pinInput.value = '';
+            clearPinError();
+        }
+
         function lookupEmployee(value) {
             if (!value) {
                 hidePreview();
+                hidePinField();
                 submitBtn.disabled = true;
                 validatedEmployee = null;
                 clearError();
-                return;
-            }
-
-            if (!employees) {
-                hidePreview();
-                submitBtn.disabled = true;
                 return;
             }
 
@@ -132,12 +156,15 @@
                     name: emp.name,
                     department: emp.department,
                     position: emp.position,
-                    can_download: authorizedPositions.indexOf(emp.position) !== -1
+                    can_download: authorizedPositions.indexOf(emp.position) !== -1,
+                    pin: emp.pin
                 };
                 showPreview(validatedEmployee);
+                showPinField();
                 submitBtn.disabled = false;
             } else {
                 hidePreview();
+                hidePinField();
                 submitBtn.disabled = true;
                 validatedEmployee = null;
                 if (value.length >= 1) {
@@ -152,6 +179,7 @@
 
             if (!val) {
                 hidePreview();
+                hidePinField();
                 submitBtn.disabled = true;
                 validatedEmployee = null;
                 clearError();
@@ -163,6 +191,10 @@
             }, 400);
         });
 
+        pinInput.addEventListener('input', function() {
+            clearPinError();
+        });
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -171,15 +203,29 @@
                 return;
             }
 
+            var enteredPin = pinInput.value.trim();
+            if (!enteredPin) {
+                showPinError('Please enter your PIN');
+                pinInput.focus();
+                return;
+            }
+
+            if (enteredPin !== validatedEmployee.pin) {
+                showPinError('Incorrect PIN');
+                pinInput.focus();
+                return;
+            }
+
+            clearPinError();
             submitBtn.disabled = true;
             btnText.innerHTML = '<span class="spinner"></span> PROCESSING...';
 
-            // Save to sessionStorage (replaces PHP session)
             sessionStorage.setItem('employee_name', validatedEmployee.name);
             sessionStorage.setItem('employee_number', validatedEmployee.employee_id);
             sessionStorage.setItem('employee_department', validatedEmployee.department);
             sessionStorage.setItem('employee_position', validatedEmployee.position);
             sessionStorage.setItem('can_download', validatedEmployee.can_download ? '1' : '0');
+            sessionStorage.setItem('is_default_pin', enteredPin === '1234' ? '1' : '0');
 
             window.location.href = 'policies.html';
         });
